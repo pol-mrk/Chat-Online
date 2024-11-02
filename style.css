@@ -1,0 +1,93 @@
+/* Asegúrate de que el color de fondo sea suave y agradable */
+
+body {
+    background-color: #f0e7f5;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+/* Estilos generales del contenedor */
+
+.contenedor {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    text-align: center;
+}
+
+
+/* Estilos de etiquetas y campos de entrada */
+
+form label,
+span {
+    display: block;
+    margin-top: 15px;
+    font-size: 20px;
+    color: #8a8a8a;
+}
+
+form input[type="text"],
+form input[type="password"] {
+    width: 94%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #d3cce3;
+    border-radius: 8px;
+    font-size: 20px;
+    color: #4b4b4b;
+    background-color: #f8f6fa;
+    transition: border 0.3s ease;
+}
+
+
+/* Efecto de enfoque para los campos de entrada */
+
+form input[type="text"]:focus,
+form input[type="password"]:focus {
+    border-color: #c5b4d2;
+    outline: none;
+}
+
+
+/* Estilos del botón de enviar */
+
+form button[type="submit"] {
+    margin-top: 20px;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 20px;
+    color: #fff;
+    background-color: #a685e2;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+    background-color: #957dc5;
+}
+
+.error {
+    color: red
+}
+
+a {
+    padding-left: 140px;
+}
+
+
+/* .oculto {
+    display: none;
+}
+
+span {
+    color: red;
+} */
