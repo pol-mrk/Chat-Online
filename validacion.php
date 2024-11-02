@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validacion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
 <?php
 
 $error = "";
@@ -46,7 +57,12 @@ if ($stmt) {
         mysqli_stmt_fetch($stmt);
 
         // Verifica la contraseña
-        if (!password_verify($password, $hashedPassword)) {
+        if (password_verify($password, $hashedPassword)) {
+            // Redirige a Wazaa.php si las credenciales son correctas
+            header("Location: ./Wazaa.php");
+            exit(); // Asegúrate de llamar a exit() aquí
+        } else {
+            // Si la contraseña es incorrecta
             $errores .= (empty($errores) ? "?" : "&") . "passwordMal=true";
         }
     } else {
@@ -76,3 +92,7 @@ if ($errores != "") {
     exit();
 }
 ?>
+
+
+</body>
+</html>

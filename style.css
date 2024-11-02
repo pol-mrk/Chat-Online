@@ -34,7 +34,9 @@ span {
 }
 
 form input[type="text"],
-form input[type="password"] {
+form input[type="password"],
+form input[type="email"] {
+    /* Añadido input email */
     width: 94%;
     padding: 10px;
     margin-top: 10px;
@@ -50,7 +52,9 @@ form input[type="password"] {
 /* Efecto de enfoque para los campos de entrada */
 
 form input[type="text"]:focus,
-form input[type="password"]:focus {
+form input[type="password"]:focus,
+form input[type="email"]:focus {
+    /* Añadido input email */
     border-color: #c5b4d2;
     outline: none;
 }
@@ -76,18 +80,81 @@ form button[type="submit"]:hover {
 }
 
 .error {
-    color: red
+    color: red;
 }
 
 a {
     padding-left: 140px;
 }
 
-
-/* .oculto {
-    display: none;
+#volver {
+    margin-left: 110px;
 }
 
-span {
+.success-message,
+.error-message {
+    margin: 20px 0;
+    font-size: 20px;
+    color: #4CAF50;
+}
+
+.error-message {
     color: red;
-} */
+}
+
+.volver-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.volver-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #a685e2;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.volver-btn:hover {
+    background-color: #957dc5;
+}
+
+.form-container {
+    background-color: #ffffff;
+    /* Fondo blanco */
+    padding: 20px;
+    /* Espaciado interior */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Sombra suave */
+    width: 320px;
+    /* Ancho del contenedor */
+    margin: 0 auto;
+    /* Centrar horizontalmente */
+    text-align: center;
+    /* Centrar el texto */
+}
+
+.error-container {
+    background-color: #ffdddd;
+    /* Fondo suave para el error */
+    padding: 20px;
+    /* Espaciado interno */
+    border: 1px solid #ff0000;
+    /* Borde rojo */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    width: 320px;
+    /* Ancho del contenedor */
+    margin: 20px auto;
+    /* Margen superior e inferior, centrar horizontalmente */
+    text-align: center;
+    /* Centrar el texto */
+    color: #d8000c;
+    /* Color del texto de error */
+    font-size: 18px;
+    /* Tamaño de fuente */
+}
