@@ -101,7 +101,7 @@
                         echo "<p> Ya és tu amigo. </p>";
                     }
 
-                    if ($estadoAmistad == 'solicitado') {
+                    if ($estadoAmistad == 'solicitado' && $usuario1 == $mi_usuario)  {
                         // Mostrar la lista de amigos
                         echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
                         echo "<p> Ya le has solicitado. </p>";
@@ -109,6 +109,15 @@
                             <input type="hidden" name="idUsuario" value="' . htmlspecialchars($idUsuario) . '">
                             <button type="submit" value="Cancelar Solicitud" class="botonSolicitud" name="Cancelar">Cancelar Solicitud</button>
                         </form>';
+                    }
+                    if ($estadoAmistad == 'solicitado' && $usuario2 == $mi_usuario)  {
+                        // Mostrar la lista de amigos
+                        echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
+                        echo "<p> Te ha solicitado. </p>";
+                        echo '<form method="POST">
+                            <button type="submit" value="Ir a solicitudes" name="Solicitudes">Ir a solicitudes</button>;
+                        </form>';
+                   
                     }
                     // Comprobamos si está rechazado y si el usuario1 (quien envia la solicitud) tiene el mismo ID que mi usuario actual
                     if ($estadoAmistad == 'rechazado' && $usuario1 == $mi_usuario) {
@@ -141,12 +150,21 @@
                     $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
                     mysqli_stmt_bind_param($stmtRelacion, "iis", $mi_usuario , $idUsuario, $estadoAmigo);
                     mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
+                    // Redireccionamos después de procesar el formulario para evitar reenvío
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
                     
                 }
-                                // Actualizamos el estado de la solicitud, si queremos volver a enviarla
+
+                if (isset($_POST['Solicitudes'])) {
+
+                    // Redireccionamos a la página
+                    header("Location: " . "./solicitudes.php");
+                    exit();
+                    
+                }
+
+                // Actualizamos el estado de la solicitud, si queremos volver a enviarla
                 // (en el caso de que nos la hayan rechazado anteriormente)
                 if (isset($_POST['VolverASolicitar'])) {
 
@@ -156,7 +174,7 @@
                     $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
                     mysqli_stmt_bind_param($stmtRelacion, "sii", $estadoAmigo, $mi_usuario , $idUsuario,);
                     mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
+                    // Redireccionamos después de procesar el formulario para evitar reenvío
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
                     
@@ -170,7 +188,7 @@
                     $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
                     mysqli_stmt_bind_param($stmtRelacion, "ii", $mi_usuario, $idUsuario);
                     mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
+                    // Redireccionamos después de procesar el formulario para evitar reenvío
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
 
@@ -212,7 +230,7 @@
                         echo "<p> Ya és tu amigo. </p>";
                     }
 
-                    if ($estadoAmistad == 'solicitado') {
+                    if ($estadoAmistad == 'solicitado' && $usuario1 == $mi_usuario)  {
                         // Mostrar la lista de amigos
                         echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
                         echo "<p> Ya le has solicitado. </p>";
@@ -220,6 +238,15 @@
                             <input type="hidden" name="idUsuario" value="' . htmlspecialchars($idUsuario) . '">
                             <button type="submit" value="Cancelar Solicitud" class="botonSolicitud" name="Cancelar">Cancelar Solicitud</button>
                         </form>';
+                    }
+                    if ($estadoAmistad == 'solicitado' && $usuario2 == $mi_usuario)  {
+                        // Mostrar la lista de amigos
+                        echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
+                        echo "<p> Te ha solicitado. </p>";
+                        echo '<form method="POST">
+                            <button type="submit" value="Ir a solicitudes" name="Solicitudes">Ir a solicitudes</button>;
+                        </form>';
+                   
                     }
                     // Comprobamos si está rechazado y si el usuario1 (quien envia la solicitud) tiene el mismo ID que mi usuario actual
                     if ($estadoAmistad == 'rechazado' && $usuario1 == $mi_usuario) {
@@ -246,45 +273,57 @@
 
                 }
 
-                if (isset($_POST['Solicitar'])) {
+ // Creamos una nueva relacion (solicitamos a un usuario nuevo)
+ if (isset($_POST['Solicitar'])) {
 
-                    $idUsuario = $_POST['idUsuario'];
-                    $estadoAmigo = 'solicitado';
-                    $sqlRelacion = "INSERT INTO tbl_amigos (usuario1, usuario2, estado) VALUES (?, ?, ?)";
-                    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
-                    mysqli_stmt_bind_param($stmtRelacion, "iis", $mi_usuario , $idUsuario, $estadoAmigo);
-                    mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
-                }
-                // Actualizamos el estado de la solicitud, si queremos volver a enviarla
-                // (en el caso de que nos la hayan rechazado anteriormente)
-                if (isset($_POST['VolverASolicitar'])) {
+    $idUsuario = $_POST['idUsuario'];
+    $estadoAmigo = 'solicitado';
+    $sqlRelacion = "INSERT INTO tbl_amigos (usuario1, usuario2, estado) VALUES (?, ?, ?)";
+    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
+    mysqli_stmt_bind_param($stmtRelacion, "iis", $mi_usuario , $idUsuario, $estadoAmigo);
+    mysqli_stmt_execute($stmtRelacion);
+    // Redireccionar después de procesar el formulario para evitar reenvío
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+    
+}
+if (isset($_POST['Solicitudes'])) {
 
-                    $idUsuario = $_POST['idUsuario'];
-                    $estadoAmigo = 'solicitado';
-                    $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE (usuario1 = ? AND usuario2 = ?)";
-                    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
-                    mysqli_stmt_bind_param($stmtRelacion, "sii", $estadoAmigo, $mi_usuario , $idUsuario,);
-                    mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
-                    
-                }
-                if (isset($_POST['Cancelar'])) {
+    // Redireccionamos a la página
+    header("Location: " . "./solicitudes.php");
+    exit();
 
-                    $idUsuario = $_POST['idUsuario'];
-                    $estadoAmigo = 'solicitado';
-                    $sqlRelacion = "DELETE FROM tbl_amigos WHERE usuario1 = ? AND usuario2 = ? ";
-                    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
-                    mysqli_stmt_bind_param($stmtRelacion, "ii", $mi_usuario, $idUsuario);
-                    mysqli_stmt_execute($stmtRelacion);
-                    // Redireccionar después de procesar el formulario para evitar reenvío
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
-                }
+}
+// Actualizamos el estado de la solicitud, si queremos volver a enviarla
+// (en el caso de que nos la hayan rechazado anteriormente)
+if (isset($_POST['VolverASolicitar'])) {
+
+    $idUsuario = $_POST['idUsuario'];
+    $estadoAmigo = 'solicitado';
+    $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE (usuario1 = ? AND usuario2 = ?)";
+    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
+    mysqli_stmt_bind_param($stmtRelacion, "sii", $estadoAmigo, $mi_usuario , $idUsuario,);
+    mysqli_stmt_execute($stmtRelacion);
+    // Redireccionar después de procesar el formulario para evitar reenvío
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+    
+}
+
+// Eliminamos una relación (cancelamos la solicitud que habíamos enviado a el usuario nuevo)
+if (isset($_POST['Cancelar'])) {
+
+    $idUsuario = $_POST['idUsuario'];
+    $estadoAmigo = 'solicitado';
+    $sqlRelacion = "DELETE FROM tbl_amigos WHERE usuario1 = ? AND usuario2 = ? ";
+    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
+    mysqli_stmt_bind_param($stmtRelacion, "ii", $mi_usuario, $idUsuario);
+    mysqli_stmt_execute($stmtRelacion);
+    // Redireccionar después de procesar el formulario para evitar reenvío
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+
+}
 
             } else {
         
