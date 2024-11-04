@@ -49,10 +49,12 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
     <?php
         $estado = 'solicitado';
 
-        $sqlAmigos = "SELECT usuario1, usuario2, tbl_amigos.estado, usuario_amigo1.nombre AS amigo1, usuario_amigo2.nombre AS amigo2, usuario_amigo1.estado FROM tbl_amigos
+        // Cambié el WHERE para obtener solicitudes donde el usuario es usuario2
+        $sqlAmigos = "SELECT usuario1, usuario2, tbl_amigos.estado, usuario_amigo1.nombre AS amigo1, usuario_amigo2.nombre AS amigo2 
+        FROM tbl_amigos
         INNER JOIN tbl_usuarios AS usuario_amigo1 ON usuario_amigo1.id_usuario = tbl_amigos.usuario1
         INNER JOIN tbl_usuarios AS usuario_amigo2 ON usuario_amigo2.id_usuario = tbl_amigos.usuario2
-        WHERE tbl_amigos.usuario1 = ? AND tbl_amigos.estado = ?";
+        WHERE tbl_amigos.usuario2 = ? AND tbl_amigos.estado = ?";
 
         $stmtAmigos = mysqli_prepare($conn, $sqlAmigos);
         mysqli_stmt_bind_param($stmtAmigos, "is", $mi_usuario, $estado);
@@ -60,26 +62,27 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
         mysqli_stmt_store_result($stmtAmigos);
 
         if (mysqli_stmt_num_rows($stmtAmigos) > 0) {
-            mysqli_stmt_bind_result($stmtAmigos, $usuario1, $usuario2, $estadoAmistad, $nombreAmigo1, $nombreAmigo2, $estadoConexionActual);
+            mysqli_stmt_bind_result($stmtAmigos, $usuario1, $usuario2, $estadoAmistad, $nombreAmigo1, $nombreAmigo2);
 
-            // Recorre cada mensaje y muestra el nombre del emisor o receptor según corresponda
+            // Recorre cada mensaje y muestra el nombre del emisor
             while (mysqli_stmt_fetch($stmtAmigos)) {     
                 // Mostrar la lista de amigos
                 echo "<div class='amigo' id='solicitudAmigo'>";
-                echo "<p><strong>" . htmlspecialchars($nombreAmigo2) . "</strong></p>";
+                echo "<p><strong>" . htmlspecialchars($nombreAmigo1) . "</strong></p>"; // Usamos nombreAmigo1 para mostrar el que envió la solicitud
                 echo '<form method="POST">
-                        <input type="hidden" name="id_amigo" value="' . htmlspecialchars($usuario2) . '">
+                        <input type="hidden" name="id_amigo" value="' . htmlspecialchars($usuario1) . '">
                         <button type="submit" name="Aceptar" class="inputSolicitudes">Aceptar</button>
                         <button type="submit" name="Rechazar" class="inputSolicitudes">Rechazar</button>
                     </form>';
                 echo "</div>";
             }
+
             if (isset($_POST['Aceptar'])) {
                 $idAmigo = $_POST['id_amigo'];
                 $estadoAmigo = 'amigo';
-                $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE usuario2 = ?";
+                $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE usuario1 = ? AND usuario2 = ?";
                 $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
-                mysqli_stmt_bind_param($stmtRelacion, "si", $estadoAmigo, $idAmigo);
+                mysqli_stmt_bind_param($stmtRelacion, "ssi", $estadoAmigo, $idAmigo, $mi_usuario);
                 mysqli_stmt_execute($stmtRelacion);
                 // Redireccionar después de procesar el formulario para evitar reenvío
                 header("Location: " . $_SERVER['PHP_SELF']);
@@ -88,9 +91,9 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
             } elseif (isset($_POST['Rechazar'])) {
                 $idAmigo = $_POST['id_amigo'];
                 $estadoRechazado = 'rechazado';
-                $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE usuario2 = ?";
+                $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE usuario1 = ? AND usuario2 = ?";
                 $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
-                mysqli_stmt_bind_param($stmtRelacion, "si", $estadoRechazado, $idAmigo);
+                mysqli_stmt_bind_param($stmtRelacion, "ssi", $estadoRechazado, $idAmigo, $mi_usuario);
                 mysqli_stmt_execute($stmtRelacion);
                 // Redireccionar después de procesar el formulario para evitar reenvío
                 header("Location: " . $_SERVER['PHP_SELF']);
@@ -106,4 +109,3 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
 <?php
 }
 ?>
-``

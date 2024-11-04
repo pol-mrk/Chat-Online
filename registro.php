@@ -95,20 +95,20 @@ if ($errores != "") {
     $hashedPassword = password_hash($contrasena, PASSWORD_BCRYPT);
 
     // Prepara la consulta SQL
-    $sql = "INSERT INTO chat_online.tbl_usuarios (nombre, apellidos, email, contrasena, estado) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO chat_online.tbl_usuarios (nombre, apellidos, email, contrasena) VALUES (?, ?, ?, ?)";
     $stmt = mysqli_prepare($conn, $sql);
-
+    
     if ($stmt) {
-        // Vincula los parámetros
-        mysqli_stmt_bind_param($stmt, "sssss", $nombre, $apellidos, $email, $hashedPassword, $estado);
-
+        // Vincula los parámetros, omitiendo 'estado'
+        mysqli_stmt_bind_param($stmt, "ssss", $nombre, $apellidos, $email, $hashedPassword);
+    
         // Ejecuta la consulta
         if (mysqli_stmt_execute($stmt)) {
             echo "<div class='success-message'>Usuario insertado exitosamente con contraseña encriptada.</div>";
         } else {
             echo "<div class='error-message'>Error al insertar el usuario: " . mysqli_stmt_error($stmt) . "</div>";
         }
-
+    
         mysqli_stmt_close($stmt);
     } else {
         echo "<div class='error-message'>Error en la preparación de la consulta: " . mysqli_error($conn) . "</div>";
