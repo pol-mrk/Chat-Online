@@ -58,7 +58,7 @@ if (mysqli_stmt_num_rows($stmt) > 0) {
         session_start();
         $_SESSION['loggedin'] = true;
         $id = $id_usuario;
-        $estado = "En línea";
+        $estado = "en línea";
         $sql2 = "UPDATE tbl_usuarios SET estado=? WHERE nombre=?";
         $stmt2 = mysqli_prepare($conn, $sql2);
         mysqli_stmt_bind_param($stmt2, "ss", $estado, $nombre);
