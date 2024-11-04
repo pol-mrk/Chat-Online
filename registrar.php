@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Registro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="contenedor" id="registroContenedor">
         <h2 id="formTitulo">Registrar Usuario</h2>
         <form id="formRegistro" action="registro.php" method="post">
-            <label for="registrarNombre" id="labelRegistrarNombre">Nombre</label>
-            <input type="text" id="registrarNombre" name="registrarNombre" 
-                   value="<?php echo isset($_GET['registrarNombre']) ? htmlspecialchars($_GET['registrarNombre']) : ''; ?>">
+            <label for="nombreRegistrar" id="labelnombreRegistrar">Nombre</label>
+            <input type="text" id="nombreRegistrar" name="nombreRegistrar" 
+                   value="<?php echo isset($_GET['nombreRegistrar']) ? htmlspecialchars($_GET['nombreRegistrar']) : ''; ?>">
             <?php if(isset($_GET['nombreVacio'])) {
                 echo '<span class="error">Nombre vacío</span>';
             } elseif (isset($_GET['nombreCorto'])) {
@@ -21,9 +24,9 @@
                 echo '<span class="error">El nombre no debe contener números/símbolos.</span>';
             }?>
             
-            <label for="registrarApellido" id="labelRegistrarApellido">Apellido</label>
-            <input type="text" id="registrarApellido" name="registrarApellido" 
-                   value="<?php echo isset($_GET['registrarApellido']) ? htmlspecialchars($_GET['registrarApellido']) : ''; ?>">
+            <label for="apellidoRegistrar" id="labelapellidoRegistrar">Apellidos</label>
+            <input type="text" id="apellidoRegistrar" name="apellidoRegistrar" 
+                   value="<?php echo isset($_GET['apellidoRegistrar']) ? htmlspecialchars($_GET['apellidoRegistrar']) : ''; ?>">
             <?php if(isset($_GET['apellidoVacio'])) {
                 echo '<span class="error">Apellido vacío</span>';
             } elseif (isset($_GET['apellidoInvalido'])) {
@@ -32,9 +35,9 @@
                 echo '<span class="error">Se requieren dos apellidos separados por un espacio.</span>';
             }?>
             
-            <label for="registrarEmail" id="labelRegistrarEmail">Email</label>
-            <input type="email" id="registrarEmail" name="registrarEmail" 
-                   value="<?php echo isset($_GET['registrarEmail']) ? htmlspecialchars($_GET['registrarEmail']) : ''; ?>">
+            <label for="emailRegistrar" id="labelemailRegistrar">Email</label>
+            <input type="text" id="emailRegistrar" name="emailRegistrar" 
+                   value="<?php echo isset($_GET['emailRegistrar']) ? htmlspecialchars($_GET['emailRegistrar']) : ''; ?>">
             <?php if(isset($_GET['emailVacio'])) {
                 echo '<span class="error">Email vacío</span>';
             } elseif (isset($_GET['emailInvalido'])) {
@@ -48,6 +51,13 @@
             } elseif (isset($_GET['passwordInvalida'])) {
                 echo '<span class="error">La contraseña debe contener al menos una mayúscula, una minúscula y un número.</span>';
             }?>
+
+            <label for="registrarRepetirContrasena" id="labelRegistrarRepetirContrasena">Repetir Contraseña</label>
+            <input type="password" id="registrarRepetirContrasena" name="registrarRepetirContrasena">
+            <?php if(isset($_GET['repetirPassword'])) {
+                echo '<span class="error">Las contraseñas no coinciden</span>';
+            }
+            ?>
 
             <button type="submit" id="btnEnviar" name="enviar2">Registrarse</button>
             <br><br>

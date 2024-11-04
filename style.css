@@ -1,5 +1,12 @@
 /* Asegúrate de que el color de fondo sea suave y agradable */
 
+* {
+    font-family: "Josefin Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
 body {
     background-color: #f0e7f5;
     font-family: 'Arial', sans-serif;
@@ -157,4 +164,348 @@ a {
     /* Color del texto de error */
     font-size: 18px;
     /* Tamaño de fuente */
+}
+
+#amigosContainer {
+    background-color: #ffffff;
+    /* Fondo blanco para el contenedor */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    width: 350px;
+    /* Ancho fijo */
+    text-align: center;
+    margin: auto;
+    /* Centrado de texto */
+}
+
+
+/* Título de la sección de amigos */
+
+#amigosContainer h1 {
+    font-size: 26px;
+    color: #6f42c1;
+    /* Color del título */
+    margin-bottom: 20px;
+    /* Espacio inferior */
+}
+
+
+/* Estilo de cada amigo en la lista */
+
+.amigo {
+    background-color: #fff9b4;
+    /* Color de fondo suave */
+    padding: 15px;
+    margin: 10px 0;
+    /* Margen superior e inferior */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    display: flex;
+    /* Flexbox para alineación */
+    justify-content: space-between;
+    /* Espacio entre elementos */
+    align-items: center;
+    /* Alinear verticalmente */
+    transition: background-color 0.3s ease;
+    /* Efecto de transición */
+    max-width: 20%;
+    min-width: 20%;
+}
+
+.amigo:hover {
+    background-color: #d3d3d3;
+    /* Color al pasar el ratón */
+}
+
+
+/* Enlace al chat */
+
+.amigo a {
+    color: #495057;
+    /* Color del enlace */
+    font-size: 18px;
+    /* Tamaño de fuente */
+    text-decoration: none;
+    /* Sin subrayado */
+    padding-right: 140px;
+    padding-left: 0
+}
+
+.amigo a:hover {
+    color: #6f42c1;
+    /* Color del enlace al pasar el ratón */
+}
+
+
+/* Estado de conexión del amigo */
+
+.amigo .estado {
+    font-size: 14px;
+    /* Tamaño de fuente */
+    color: #28a745;
+    /* Color verde para conectado */
+    font-weight: 500;
+    /* Peso de fuente */
+}
+
+
+/* Mensaje cuando no hay amigos */
+
+#sinAmigos {
+    color: #dc3545;
+    /* Color rojo para mensajes de error */
+    font-size: 18px;
+    /* Tamaño de fuente */
+    margin-top: 15px;
+    /* Margen superior */
+}
+
+
+/* Estilo del encabezado */
+
+header {
+    text-align: center;
+    /* Centrar el texto del encabezado */
+    margin-bottom: 20px;
+    /* Margen inferior */
+}
+
+
+/* Estilo para el fondo del contenedor de amigos */
+
+.container {
+    display: flex;
+    /* Flexbox para centrar */
+    justify-content: center;
+    /* Centrar horizontalmente */
+    align-items: center;
+    /* Centrar verticalmente */
+    flex-direction: column
+}
+
+.bodyLista {
+    display: block;
+    height: 0
+}
+
+.bodyBuscar {
+    display: block;
+    height: 0
+}
+
+.buscarUser {
+    display: flex;
+    width: 50%;
+    padding-left: 25%;
+    padding-right: 25%
+}
+
+#formBuscarUser {
+    width: 100%;
+}
+
+.divGrande {
+    width: 80%;
+    display: flex
+}
+
+.divPequeño {
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+
+#inputBuscar {
+    margin-top: 10px
+}
+
+#idamigo {
+    background-color: #fff9b4;
+    /* Color de fondo suave */
+    padding: 15px;
+    margin: 10px 0;
+    /* Margen superior e inferior */
+    border-radius: 10px;
+    /* Bordes redondeados */
+    display: flex;
+    /* Flexbox para alineación */
+    justify-content: space-between;
+    /* Espacio entre elementos */
+    align-items: center;
+    /* Alinear verticalmente */
+    transition: background-color 0.3s ease;
+    /* Efecto de transición */
+    width: 40%;
+    margin-left: 28%
+}
+
+.inputBuscar,
+.inputSolicitudes {
+    margin-top: 10px;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 20px;
+    color: #fff;
+    background-color: #a685e2;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.inputSolicitudes {
+    margin-top: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.solicitar {
+    width: 25%
+}
+
+.botonSolicitud {
+    margin-top: 0 !important;
+    padding: 10px !important;
+}
+
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+}
+
+.iconos {
+    padding: 20px
+}
+
+svg {
+    width: 40px;
+    height: auto;
+    margin-top: 10px;
+}
+
+#solicitudAmigo {
+    max-width: 100%
+}
+
+
+/* Contenedor principal del chat */
+
+.caja-contenedor {
+    display: flex;
+    flex-direction: column;
+    /* Coloca elementos en columna */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    /* Ajusta la altura total */
+}
+
+
+/* Contenedor de mensajes */
+
+.contenedor-mensajes {
+    flex-grow: 1;
+    /* Permite que el contenedor crezca */
+    max-height: 400px;
+    /* Limita la altura del contenedor de mensajes */
+    overflow-y: auto;
+    /* Agrega desplazamiento si es necesario */
+    margin-bottom: 20px;
+    display: flex;
+    /* Habilita el uso de flexbox */
+    flex-direction: column;
+    /* Alinea los mensajes verticalmente */
+}
+
+
+/* Estilos de mensajes */
+
+.mensaje-mio,
+.mensaje-suyo {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    max-width: 70%;
+    /* Ajusta el ancho máximo del mensaje */
+    word-wrap: break-word;
+    /* Permite que el texto largo se divida en varias líneas */
+    display: inline-block;
+    /* Permite que el mensaje se ajuste al contenido */
+}
+
+
+/* Mensajes enviados por mí */
+
+.mensaje-mio {
+    background-color: #d1e7dd;
+    /* Color de fondo para mensajes enviados */
+    align-self: flex-end;
+    /* Alinea a la derecha */
+}
+
+
+/* Mensajes recibidos del otro usuario */
+
+.mensaje-suyo {
+    background-color: #f8d7da;
+    /* Color de fondo para mensajes recibidos */
+    align-self: flex-start;
+    /* Alinea a la izquierda */
+}
+
+
+/* Estilo del formulario de mensajes */
+
+.caja-mensaje {
+    display: flex;
+    /* Cambia a flexbox para alinear elementos en fila */
+    align-items: center;
+    /* Alinea verticalmente al centro */
+}
+
+
+/* Estilo del input de mensaje */
+
+.input-mensaje {
+    flex-grow: 1;
+    /* Permite que el input crezca */
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 70% !important
+    /* Espacio entre el input y el botón */
+}
+
+
+/* Estilo del botón de enviar */
+
+.boton-enviar {
+    padding: 10px 15px;
+    background-color: #007bff;
+    /* Color de fondo del botón */
+    color: white;
+    /* Color del texto del botón */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    /* Cambia el cursor al pasar sobre el botón */
+}
+
+.boton-enviar:hover {
+    background-color: #0056b3;
+    /* Color del botón al pasar el mouse */
+}
+
+#inputChat {
+    width: 100%
+}
+
+.centrar {
+    display: flex;
+    justify-content: center
 }
