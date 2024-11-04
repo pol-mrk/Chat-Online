@@ -419,6 +419,7 @@ svg {
     /* Habilita el uso de flexbox */
     flex-direction: column;
     /* Alinea los mensajes verticalmente */
+    scrollbar-width: none;
 }
 
 
@@ -508,4 +509,8 @@ svg {
 .centrar {
     display: flex;
     justify-content: center
+}
+
+.centrarNouser {
+    text-align: center;
 }

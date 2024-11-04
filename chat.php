@@ -54,7 +54,7 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
                 INNER JOIN tbl_usuarios AS usuario_emisor ON usuario_emisor.id_usuario = tbl_mensajes.emisor
                 INNER JOIN tbl_usuarios AS usuario_receptor ON usuario_receptor.id_usuario = tbl_mensajes.receptor
                 WHERE (tbl_mensajes.emisor = ? AND tbl_mensajes.receptor = ?) OR (tbl_mensajes.emisor = ? AND tbl_mensajes.receptor = ?)
-                ORDER BY fecha_chat ASC";
+                ORDER BY fecha_chat DESC";
                 
                 $stmtMostrar = mysqli_prepare($conn, $sqlMostrar);
                 mysqli_stmt_bind_param($stmtMostrar, "iiii", $emisor, $receptor, $receptor, $emisor);

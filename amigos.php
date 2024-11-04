@@ -20,6 +20,24 @@
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<script>
+    function estado() {
+        // Obtener todos los elementos con la clase "estado"
+        const estados = document.getElementsByClassName("estado");
+
+        // Recorrer todos los elementos con la clase "estado"
+        for (let i = 0; i < estados.length; i++) {
+            // Verificar si el contenido es 'en línea'
+            if (estados[i].textContent === 'desconectado') {
+                estados[i].style.color = "red"; // Cambiar el color a rojo
+            }
+        }
+    }
+
+    // Llama a la función estado cuando se carga la página
+    window.onload = estado;
+</script>
+
 </head>
 <body class="bodyLista">
     <header class="encabezado">

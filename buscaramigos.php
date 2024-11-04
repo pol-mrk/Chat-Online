@@ -77,14 +77,15 @@
             // CUANDO la ID del usuario NO sea IGUAL que el usuario de nuestra sesión y sea IGUAL que el valor del input en el buscador
             // y AGRUPAMOS las filas que tengan los mismos valores (las mismas IDs de usuario)
             $sqlBuscador = "SELECT tbl_usuarios.id_usuario, nombre, apellidos, email, tbl_usuarios.estado, tbl_amigos.usuario1 AS amigo1, tbl_amigos.usuario2 AS amigo2, tbl_amigos.estado FROM tbl_usuarios
-            LEFT JOIN tbl_amigos ON tbl_amigos.usuario1 = tbl_usuarios.id_usuario OR tbl_amigos.usuario2 = tbl_usuarios.id_usuario
+            LEFT JOIN tbl_amigos ON (tbl_amigos.usuario1 = tbl_usuarios.id_usuario OR tbl_amigos.usuario2 = tbl_usuarios.id_usuario) AND (tbl_amigos.usuario1 = ? OR tbl_amigos.usuario2 = ?)
             WHERE (tbl_usuarios.id_usuario != ?) AND (nombre LIKE ?)
             GROUP BY tbl_usuarios.id_usuario";
 
             $stmtBuscador = mysqli_prepare($conn, $sqlBuscador);
-            mysqli_stmt_bind_param($stmtBuscador, "is", $mi_usuario, $inputBuscarUsuarios);
+            mysqli_stmt_bind_param($stmtBuscador, "iiis", $mi_usuario, $mi_usuario, $mi_usuario, $inputBuscarUsuarios);
             mysqli_stmt_execute($stmtBuscador);
             mysqli_stmt_store_result($stmtBuscador);
+
 
             if (mysqli_stmt_num_rows($stmtBuscador) > 0) {
                 echo "<div class=divAmigos>";
@@ -109,7 +110,16 @@
                             <button type="submit" value="Cancelar Solicitud" class="botonSolicitud" name="Cancelar">Cancelar Solicitud</button>
                         </form>';
                     }
+                    // Comprobamos si está rechazado y si el usuario1 (quien envia la solicitud) tiene el mismo ID que mi usuario actual
+                    if ($estadoAmistad == 'rechazado' && $usuario1 == $mi_usuario) {
+                        // Mostrar la lista de amigos
+                        echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
+                        echo '<form method="POST">
+                            <input type="hidden" name="idUsuario" value="' . htmlspecialchars($idUsuario) . '">
+                            <button type="submit" value="Volver a solicitar" class="botonSolicitud" name="VolverASolicitar">Volver a Solicitar</button>
+                            </form>';
 
+                    }
                     if ($estadoAmistad !== 'solicitado' && $estadoAmistad !== 'amigo' && $estadoAmistad !== 'rechazado') {
                         // Mostrar la lista de amigos
                         echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
@@ -136,6 +146,21 @@
                     exit();
                     
                 }
+                                // Actualizamos el estado de la solicitud, si queremos volver a enviarla
+                // (en el caso de que nos la hayan rechazado anteriormente)
+                if (isset($_POST['VolverASolicitar'])) {
+
+                    $idUsuario = $_POST['idUsuario'];
+                    $estadoAmigo = 'solicitado';
+                    $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE (usuario1 = ? AND usuario2 = ?)";
+                    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
+                    mysqli_stmt_bind_param($stmtRelacion, "sii", $estadoAmigo, $mi_usuario , $idUsuario,);
+                    mysqli_stmt_execute($stmtRelacion);
+                    // Redireccionar después de procesar el formulario para evitar reenvío
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit();
+                    
+                }
 
                 if (isset($_POST['Cancelar'])) {
 
@@ -152,7 +177,7 @@
                 }
 
             } else {
-                echo "<p>No hay usuarios disponibles.</p>";
+                echo "<p style='text-align:center'>No hay usuarios disponibles.</p>";
             }
 
 
@@ -163,12 +188,12 @@
             // CUANDO la ID del usuario NO sea IGUAL que el usuario de nuestra sesión
             // y AGRUPAMOS las filas que tengan los mismos valores (las mismas IDs de usuario)
             $sqlBuscarAmigos = "SELECT tbl_usuarios.id_usuario, nombre, apellidos, email, tbl_usuarios.estado, tbl_amigos.usuario1 AS amigo1, tbl_amigos.usuario2 AS amigo2, tbl_amigos.estado FROM tbl_usuarios
-            LEFT JOIN tbl_amigos ON tbl_amigos.usuario1 = tbl_usuarios.id_usuario OR tbl_amigos.usuario2 = tbl_usuarios.id_usuario
-            WHERE tbl_usuarios.id_usuario != ?
+            LEFT JOIN tbl_amigos ON (tbl_amigos.usuario1 = tbl_usuarios.id_usuario OR tbl_amigos.usuario2 = tbl_usuarios.id_usuario) AND (tbl_amigos.usuario1 = ? OR tbl_amigos.usuario2 = ?)
+            WHERE (tbl_usuarios.id_usuario != ?)
             GROUP BY tbl_usuarios.id_usuario";
 
             $stmtBuscarAmigos = mysqli_prepare($conn, $sqlBuscarAmigos);
-            mysqli_stmt_bind_param($stmtBuscarAmigos, "i", $mi_usuario);
+            mysqli_stmt_bind_param($stmtBuscarAmigos, "iii", $mi_usuario, $mi_usuario, $mi_usuario);
             mysqli_stmt_execute($stmtBuscarAmigos);
             mysqli_stmt_store_result($stmtBuscarAmigos);
 
@@ -196,6 +221,17 @@
                             <button type="submit" value="Cancelar Solicitud" class="botonSolicitud" name="Cancelar">Cancelar Solicitud</button>
                         </form>';
                     }
+                    // Comprobamos si está rechazado y si el usuario1 (quien envia la solicitud) tiene el mismo ID que mi usuario actual
+                    if ($estadoAmistad == 'rechazado' && $usuario1 == $mi_usuario) {
+                    // Mostrar la lista de amigos
+                    echo "<p><strong>" . htmlspecialchars($nombre) . "</strong></p>";
+                    echo '<form method="POST">
+                        <input type="hidden" name="idUsuario" value="' . htmlspecialchars($idUsuario) . '">
+                        <button type="submit" value="Volver a solicitar" class="botonSolicitud" name="VolverASolicitar">Volver a Solicitar</button>
+
+                    </form>';
+
+                }
 
                     if ($estadoAmistad !== 'solicitado' && $estadoAmistad !== 'amigo' && $estadoAmistad !== 'rechazado') {
                         // Mostrar la lista de amigos
@@ -221,9 +257,22 @@
                     // Redireccionar después de procesar el formulario para evitar reenvío
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
+                }
+                // Actualizamos el estado de la solicitud, si queremos volver a enviarla
+                // (en el caso de que nos la hayan rechazado anteriormente)
+                if (isset($_POST['VolverASolicitar'])) {
+
+                    $idUsuario = $_POST['idUsuario'];
+                    $estadoAmigo = 'solicitado';
+                    $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE (usuario1 = ? AND usuario2 = ?)";
+                    $stmtRelacion = mysqli_prepare($conn, $sqlRelacion);
+                    mysqli_stmt_bind_param($stmtRelacion, "sii", $estadoAmigo, $mi_usuario , $idUsuario,);
+                    mysqli_stmt_execute($stmtRelacion);
+                    // Redireccionar después de procesar el formulario para evitar reenvío
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit();
                     
                 }
-
                 if (isset($_POST['Cancelar'])) {
 
                     $idUsuario = $_POST['idUsuario'];
@@ -235,16 +284,13 @@
                     // Redireccionar después de procesar el formulario para evitar reenvío
                     header("Location: " . $_SERVER['PHP_SELF']);
                     exit();
-
                 }
 
             } else {
-                echo "<p>No hay usuarios disponibles.</p>";
+        
+                echo "<p style='text-align:center'>No hay usuarios disponibles.</p>";
             }
         }
-        
-        
-
     ?>
 </body>
 </html>
