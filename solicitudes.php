@@ -3,6 +3,8 @@
 include_once("./conexion.php");
 
 session_start();
+ob_start();
+
 
 if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
     header('Location: ' . './index.php');
@@ -68,7 +70,7 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
                 echo "<div class='amigo' id='solicitudAmigo'>";
                 echo "<p><strong>" . htmlspecialchars($nombreAmigo1) . "</strong></p>"; // Usamos nombreAmigo1 para mostrar el que envió la solicitud
                 echo '<form method="POST">
-                        <input type="hidden" name="id_amigo" value="' . htmlspecialchars($usuario2) . '">
+                        <input type="hidden" name="id_amigo" value="' . htmlspecialchars($usuario1) . '">
                         <button type="submit" name="Aceptar" class="inputSolicitudes">Aceptar</button>
                         <button type="submit" name="Rechazar" class="inputSolicitudes">Rechazar</button>
                     </form>';
@@ -76,6 +78,7 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
             }
 
             if (isset($_POST['Aceptar'])) {
+                echo "holaa";
                 $idAmigo = $_POST['id_amigo'];
                 $estadoAmigo = 'amigo';
                 $sqlRelacion = "UPDATE tbl_amigos SET estado = ? WHERE usuario1 = ? AND usuario2 = ?";
@@ -105,5 +108,6 @@ if (!isset($_SESSION['loggedin']) && !isset($_SESSION['id_usuario'])) {
 </body>
 </html>
 <?php
+    ob_end_flush();
 }
 ?>
